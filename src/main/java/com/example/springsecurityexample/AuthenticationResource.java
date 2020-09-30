@@ -36,9 +36,8 @@ public class AuthenticationResource {
                             authenticationRequest.getPassword()
                     )
             );
-        }
-        catch (BadCredentialsException exception) {
-            throw new Exception("Incorrect usernam or password", exception);
+        } catch (BadCredentialsException exception) {
+            throw new Exception("Incorrect username or password", exception);
         }
         // if the authentication is succesful...
         final UserDetails userDetails = userDetailsService
