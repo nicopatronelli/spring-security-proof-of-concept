@@ -47,6 +47,7 @@ public class AuthenticationResource {
            use a UserDetailsService to get the UserDetails is redundant, at
            least we would need more info about the user.
          */
+        System.out.println("The user details are: " + userDetails.getUsername() + " and " + userDetails.getPassword());
         final String jwt = jwtUtil.generateToken(userDetails);
 
         // ResponseEntity.ok returns a response with 200 status code
