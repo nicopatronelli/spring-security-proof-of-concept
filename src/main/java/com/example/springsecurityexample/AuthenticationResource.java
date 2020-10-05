@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +26,7 @@ public class AuthenticationResource {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @RequestMapping("/authenticate")
+    @PostMapping("/authenticate")
     public ResponseEntity<?> createAuthenticationToken(
             @RequestBody AuthenticationRequest authenticationRequest
     ) throws Exception {
@@ -42,8 +43,13 @@ public class AuthenticationResource {
         // if the authentication is succesful...
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());
+        /* generateToken only needs the userName and we just got it. Then
+           use a UserDetailsService to get the UserDetails is redundant, at
+           least we would need more info about the user.
+         */
         final String jwt = jwtUtil.generateToken(userDetails);
 
+        // ResponseEntity.ok returns a response with 200 status code
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 }
