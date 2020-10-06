@@ -1,7 +1,7 @@
 package com.example.springsecurityexample;
 
-import com.example.springsecurityexample.models.AuthenticationRequest;
-import com.example.springsecurityexample.models.AuthenticationResponse;
+import com.example.springsecurityexample.model.AuthenticationRequest;
+import com.example.springsecurityexample.model.AuthenticationResponse;
 import com.example.springsecurityexample.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -47,7 +46,6 @@ public class AuthenticationResource {
            use a UserDetailsService to get the UserDetails is redundant, at
            least we would need more info about the user.
          */
-        System.out.println("The user details are: " + userDetails.getUsername() + " and " + userDetails.getPassword());
         final String jwt = jwtUtil.generateToken(userDetails);
 
         // ResponseEntity.ok returns a response with 200 status code

@@ -32,10 +32,13 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests().antMatchers("/authenticate").permitAll() // permite to all users to access /authenticate endpoint
-                .anyRequest().authenticated(); // ... but to access any other endpoint he user has to be authenticated
-//                .and().sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+                .anyRequest().authenticated() // ... but to access any other endpoint he user has to be authenticated
+                .and().exceptionHandling()
+                // The next settings are needed to get a response from and endpoint after the user has been
+                // authenticated and is sending his JWT. Otherwise, the response is 403.
+                .and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
