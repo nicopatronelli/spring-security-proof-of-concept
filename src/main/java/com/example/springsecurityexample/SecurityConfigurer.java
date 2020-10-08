@@ -1,6 +1,7 @@
 package com.example.springsecurityexample;
 
 import com.example.springsecurityexample.filters.JwtRequestFilter;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,12 +16,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private MyUserDetailsService myUserDetailsService;
-
-    @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
     @Override
@@ -32,6 +31,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests().antMatchers("/authenticate").permitAll() // permite to all users to access /authenticate endpoint
+//                .antMatchers("/hello").hasRole("ADMIN")
                 .anyRequest().authenticated() // ... but to access any other endpoint he user has to be authenticated
                 .and().exceptionHandling()
                 // The next settings are needed to get a response from and endpoint after the user has been

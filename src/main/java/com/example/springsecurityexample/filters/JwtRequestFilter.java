@@ -2,11 +2,10 @@ package com.example.springsecurityexample.filters;
 
 import com.example.springsecurityexample.MyUserDetailsService;
 import com.example.springsecurityexample.util.JwtUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -18,12 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
+@AllArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    @Autowired
     private MyUserDetailsService userDetailsService;
-
-    @Autowired
     private JwtUtil jwtUtil;
 
     @Override
@@ -41,6 +38,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            // TODO: If the user already has a jwt valid then we won't need to get his/her UserDetails
+            // from database
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userName);
             if (jwtUtil.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
