@@ -1,7 +1,6 @@
 package com.example.springsecurityexample.model;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,12 +8,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity @Table(name = "users")
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // for hibernate
 @Getter
 public class User implements UserDetails {
@@ -28,10 +27,17 @@ public class User implements UserDetails {
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "rol_id"))
-    private List<Rol> roles;
+    private List<Role> roles;
+
+    public User(String username, String password, boolean enabled, List<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+        this.roles = roles;
+    }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<GrantedAuthority> getAuthorities() {
         return this.getRoles().stream()
             .map(rol -> new SimpleGrantedAuthority(rol.getName()))
             .collect(Collectors.toList());
@@ -50,5 +56,9 @@ public class User implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
+    }
+
+    public static User userDetailsForUsernamePasswordAuthenticationToken(String username) {
+        return new User(username, "", true, new ArrayList<>());
     }
 }

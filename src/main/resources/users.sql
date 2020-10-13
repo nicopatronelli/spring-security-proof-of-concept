@@ -7,6 +7,8 @@ FROM roles;
 SELECT *
 FROM users_roles;
 
+ALTER SEQUENCE hibernate_sequence restart with 3;
+
 -- username of admins
 SELECT u.username 
 FROM users u
@@ -15,6 +17,15 @@ FROM users u
 	JOIN roles r
 		ON  ur.rol_id = r.id
 WHERE r.name = 'ROL_ADMIN'
+
+-- username of users
+SELECT u.username 
+FROM users u
+	JOIN users_roles ur
+		ON u.id = ur.user_id
+	JOIN roles r
+		ON  ur.rol_id = r.id
+WHERE r.name = 'ROL_USER'
 
 -- Roles
 INSERT INTO roles(id, name)
