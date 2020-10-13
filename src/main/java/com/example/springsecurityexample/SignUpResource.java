@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 public class SignUpResource {
-    private MyUserDetailsService userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerANewUser(@RequestBody SignUpRequest signUpRequest) throws Exception {

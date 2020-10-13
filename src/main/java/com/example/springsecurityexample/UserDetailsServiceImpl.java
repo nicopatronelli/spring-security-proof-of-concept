@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class MyUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     private UserRepository userRepository;
 
@@ -33,7 +33,7 @@ public class MyUserDetailsService implements UserDetailsService {
     }
 
     public void registerANewUser(String username, String password) throws Exception {
-        if (isUserNameAvailable(username)) {
+        if (this.isUserNameAvailable(username)) {
             User user = new User(username, password, true, Arrays.asList(Role.getUserRol()));
             userRepository.save(user);
         } else throw new Exception("The username is not available");
