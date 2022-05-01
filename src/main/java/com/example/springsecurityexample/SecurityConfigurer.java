@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @EnableWebSecurity
 @Configuration // I don't know why is needed...
@@ -37,7 +38,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
             .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
             .authorizeRequests()
             .antMatchers(HttpMethod.POST, "/signup", "/authenticate").permitAll()
-            .antMatchers("/hello").hasRole("ADMIN")
+            .antMatchers(HttpMethod.GET, "/public/hello").permitAll()
             .anyRequest().authenticated() // ... but to access any other endpoint he user has to be authenticated
             .and().exceptionHandling()
             // The next settings are needed to get a response from and endpoint after the user has been
@@ -45,6 +46,27 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
             .and().sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
+
+//    protected void configure2(HttpSecurity http) throws Exception {
+//        http
+////            .disable()
+//                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+//                .authorizeRequests()
+//                .antMatchers(HttpMethod.POST, "/signup", "/authenticate").permitAll()
+//                .and()
+//                .csrf()
+//                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//                .and()
+//                .authorizeRequests()
+////            .antMatchers("/hello").hasRole("USER")
+//                .antMatchers(HttpMethod.GET, "/public/hello").permitAll()
+//                .anyRequest().authenticated() // ... but to access any other endpoint he user has to be authenticated
+//                .and().exceptionHandling()
+//                // The next settings are needed to get a response from and endpoint after the user has been
+//                // authenticated and is sending his JWT. Otherwise, the response is 403.
+//                .and().sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//    }
 
     @Override @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {

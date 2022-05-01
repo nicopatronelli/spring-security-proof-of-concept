@@ -10,13 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 public class SignUpResource {
-    private UserDetailsServiceImpl userDetailsService;
+    private UserSignUpService userSignUpService;
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerANewUser(@RequestBody SignUpRequest signUpRequest) throws Exception {
         String username = signUpRequest.getUsername();
         String password = signUpRequest.getPassword();
-        userDetailsService.registerANewUser(username, password);
+        String email = signUpRequest.getEmail();
+        userSignUpService.registerANewUser(username, password, email);
         return ResponseEntity.ok("The user has been registered.");
     }
 }

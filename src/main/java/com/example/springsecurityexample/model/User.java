@@ -1,6 +1,7 @@
 package com.example.springsecurityexample.model;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +22,7 @@ public class User implements UserDetails {
     private Long id;
     private String username;
     private String password;
+    private String email;
     private boolean enabled;
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(
@@ -29,9 +31,10 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "rol_id"))
     private List<Role> roles;
 
-    public User(String username, String password, boolean enabled, List<Role> roles) {
+    public User(String username, String password, String email, boolean enabled, List<Role> roles) {
         this.username = username;
         this.password = password;
+        this.email = email;
         this.enabled = enabled;
         this.roles = roles;
     }
@@ -59,6 +62,6 @@ public class User implements UserDetails {
     }
 
     public static User userDetailsForUsernamePasswordAuthenticationToken(String username) {
-        return new User(username, "", true, new ArrayList<>());
+        return new User(username, "", "", true, new ArrayList<>());
     }
 }

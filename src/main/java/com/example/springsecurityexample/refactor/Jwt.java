@@ -10,11 +10,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Jwt {
-    final static private String SECRET_KEY = "secret";
-    final private String token;
-    @Getter final private String username;
-    final private Claims claims;
-    @Getter final private Collection<GrantedAuthority> authorities;
+    private final static String SECRET_KEY = "secret";
+    private final String token;
+    @Getter private final String username;
+    private final Claims claims;
+    @Getter private final Collection<GrantedAuthority> authorities;
 
     private Jwt(String authorizationHeader) {
         token = authorizationHeader.substring(7); // the string after "Bearer " is the jwt
