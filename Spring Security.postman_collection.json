@@ -1,0 +1,162 @@
+{
+	"info": {
+		"_postman_id": "af0c7315-fbb7-4e59-bcb4-d380fe50b594",
+		"name": "Spring Security",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "SignUp",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"liam\",\r\n    \"password\": \"123456\",\r\n    \"email\": \"liam@oasis.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/signup",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LogIn",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"liam\",\r\n    \"password\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/authenticate",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Public Hello",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-XSR",
+						"value": "",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "50d845e5-9bea-45fc-b15c-f5ff1c206856",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/public/hello",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"public",
+						"hello"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Public Hello with side effect",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "50d845e5-9bea-45fc-b15c-f5ff1c206856",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/public/hello",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"public",
+						"hello"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Private Hello",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaWFtIiwiZXhwIjoxNjUxNDgxOTQ3LCJpYXQiOjE2NTE0NDU5NDcsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV19.kh0Rcdn-enVe9rJ3GmlMdv7VvKlTGFznHXM-DEOpoCc"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "309026f5-3d6d-4a60-b766-77351cfca32e",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/secure/hello",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"secure",
+						"hello"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
